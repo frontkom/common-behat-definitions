@@ -1,5 +1,10 @@
 {
   "name": "frontkom/common-behat-definitions",
   "description": "Common step definitions and helpers for behat",
-  "license": "MIT"
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Frontkom\\CommonBehatDefinitions\\": "src/"
+    }
+  }
 }
