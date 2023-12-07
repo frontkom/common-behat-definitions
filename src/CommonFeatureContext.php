@@ -2,9 +2,9 @@
 
 namespace Frontkom\CommonBehatDefinitions;
 
-use Behat\Behat\Context\Context;
+use Behat\MinkExtension\Context\RawMinkContext;
 
-class CommonFeatureContext Implements Context
+class CommonFeatureContext extends RawMinkContext
 {
     use JsErrorsDumper;
 }
