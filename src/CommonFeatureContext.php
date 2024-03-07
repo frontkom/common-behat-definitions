@@ -7,4 +7,31 @@ use Behat\MinkExtension\Context\RawMinkContext;
 class CommonFeatureContext extends RawMinkContext
 {
     use JsErrorsDumper;
+
+    /**
+     * Wait until an element is visible.
+     *
+     * @Given /^I wait until element "([^"]*)" is visible/
+     * @Given /^I wait until element '([^']*)' is visible$/
+     */
+    public function iWaitUntilElementIsVisible($selector)
+    {
+        $elements = $this->getSession()->getPage()->findAll('css', $selector);
+        if (count($elements) !== 1) {
+          throw new \Exception('Expected to find exactly one element by selector ' . $selector . ' but found ' . count($elements) . ' elements');
+        }
+        /** @var \Behat\Mink\Element\NodeElement $element */
+        $element = reset($elements);
+        $i = 0;
+        while (TRUE) {
+            if ($element->isVisible()) {
+              return;
+            }
+            sleep(1);
+            $i++;
+            if ($i > 10) {
+                throw new \Exception('Element never became visible');
+            }
+        }
+    }
 }
