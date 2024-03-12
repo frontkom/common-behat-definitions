@@ -4,6 +4,7 @@ namespace Frontkom\CommonBehatDefinitions;
 
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Mink\Driver\Selenium2Driver;
+use Behat\Mink\Exception\DriverException;
 
 /**
  * Provides AfterStep that dumps any JS errors that appear during given step.
@@ -31,7 +32,14 @@ trait JsErrorsDumper {
     // example stuff like "Given a node with title something", which of course
     // will not let us have a browser window to check if there are any errors,
     // even if the driver of the session technically is a Selenium2Driver.
-    if (!$driver->getWebDriverSession()) {
+    try {
+      if (!$driver->getWebDriverSession()) {
+        return;
+      }
+    }
+    catch (DriverException $e) {
+      // This will happen at least in some version here if the session has not
+      // been started yet.
       return;
     }
 
