@@ -34,4 +34,15 @@ class CommonFeatureContext extends RawMinkContext
             }
         }
     }
+
+    /**
+     * Step definition to find links by URL.
+     *
+     * @Then /^I should see a link to "([^"]*)"$/
+     */
+    public function iShouldSeeALinkTo($url)
+    {
+        $this->assertSession()->elementExists('css', 'a[href="' . $url . '"]');
+    }
+
 }
