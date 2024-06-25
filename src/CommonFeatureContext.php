@@ -45,4 +45,14 @@ class CommonFeatureContext extends RawMinkContext
         $this->assertSession()->elementExists('css', 'a[href="' . $url . '"]');
     }
 
+    /**
+     * Step definition to wait a little.
+     *
+     * @Then (I )wait :count second(s)
+     */
+    public function iWaitSeconds($count)
+    {
+        usleep($count * 1000000);
+    }
+
 }
