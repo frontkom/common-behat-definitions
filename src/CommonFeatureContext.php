@@ -6,6 +6,9 @@ use Behat\MinkExtension\Context\RawMinkContext;
 
 class CommonFeatureContext extends RawMinkContext
 {
+    protected const WIDTH = 1440;
+    protected const HEIGHT = 1000;
+
     use JsErrorsDumper;
 
     /**
@@ -55,4 +58,43 @@ class CommonFeatureContext extends RawMinkContext
         usleep($count * 1000000);
     }
 
+    /**
+     * Set the viewport to something defined as desktop.
+     *
+     * If you need to override this, simply create a class that extends this
+     * class, and reference that class inside your behat.yml file.
+     *
+     * @Given viewport is desktop
+     * @Given the viewport is desktop
+     */
+    public function iSetDesktopViewport()
+    {
+        $mink = $this->getMink();
+        if (!$mink->getSession()->isStarted()) {
+           $mink->getSession()->start();
+        }
+        $this->getSession()->resizeWindow(self::WIDTH, self::HEIGHT, 'current');
+    }
+
+    /**
+     * Scroll something into view.
+     *
+     * @Then I scroll element :selector into view
+     * @Then I scroll :selector into view
+     */
+    public function scrollSelectorIntoView($selector) {
+      $function = <<<JS
+  (function(){
+    var elem = jQuery("$selector")[0];
+    elem.scrollIntoView(false);
+    window.scrollBy(0, 100)
+  })()
+  JS;
+        try {
+            $this->getSession()->executeScript($function);
+        }
+        catch (\Exception $e) {
+            throw new \Exception("ScrollIntoView failed: " . $e->getMessage());
+        }
+    }
 }
