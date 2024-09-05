@@ -10,6 +10,7 @@ class CommonFeatureContext extends RawMinkContext
     protected const HEIGHT = 1000;
 
     use JsErrorsDumper;
+    use ElementExistsTrait;
 
     /**
      * Wait until an element is visible.
