@@ -20,4 +20,23 @@ class GutenbergContext extends RawMinkContext {
     $this->getSession()->evaluateScript($js);
   }
 
+  /**
+   * Step to wait for the editor to be ready.
+   *
+   * @Then /^I wait until gutenberg is ready$/
+   */
+  public function iWaitUntilGutenbergIsReady($max_wait = 10) {
+    while (TRUE) {
+      $is_ready = $this->getSession()->evaluateScript("wp && wp.data && wp.data.select && wp.data.select('core/editor').isCleanNewPost() || wp.data.select('core/block-editor').getBlockCount() > 0");
+      if ($is_ready) {
+        break;
+      }
+      sleep(1);
+      $max_wait--;
+      if ($max_wait <= 0) {
+        throw new \Exception('Gutenberg did not load in time');
+      }
+    }
+  }
+
 }
