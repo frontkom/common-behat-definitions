@@ -15,6 +15,9 @@
         ],
         "phpcs": "vendor/bin/phpcs -p"
     },
+  "require": {
+    "behat/behat": "^3.0"
+  },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.10",
         "slevomat/coding-standard": "^8.15",
