@@ -20,5 +20,10 @@
         "slevomat/coding-standard": "^8.15",
         "phpunit/phpunit": "^9.0 || ^10.5",
         "phpstan/phpstan": "^1.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
