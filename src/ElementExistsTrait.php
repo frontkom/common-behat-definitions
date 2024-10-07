@@ -14,7 +14,7 @@ trait ElementExistsTrait
      * @Given I wait until element :arg1 exists
      * @Given I wait until element :arg1 exists max :arg2 seconds
      */
-    public function iWaitUntilElementExists($element, $seconds = NULL)
+    public function iWaitUntilElementExists($element, $seconds = null)
     {
         $seconds = (isset($seconds) && !empty($seconds)) ? $seconds : 10;
         $waited = 0;
