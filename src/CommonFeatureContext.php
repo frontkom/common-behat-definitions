@@ -11,6 +11,7 @@ class CommonFeatureContext extends RawMinkContext
 
     use JsErrorsDumper;
     use ElementExistsTrait;
+    use ViewPortTrait;
 
     /**
      * Wait until an element is visible.
@@ -57,24 +58,6 @@ class CommonFeatureContext extends RawMinkContext
     public function iWaitSeconds($count)
     {
         usleep($count * 1000000);
-    }
-
-    /**
-     * Set the viewport to something defined as desktop.
-     *
-     * If you need to override this, simply create a class that extends this
-     * class, and reference that class inside your behat.yml file.
-     *
-     * @Given viewport is desktop
-     * @Given the viewport is desktop
-     */
-    public function iSetDesktopViewport()
-    {
-        $mink = $this->getMink();
-        if (!$mink->getSession()->isStarted()) {
-           $mink->getSession()->start();
-        }
-        $this->getSession()->resizeWindow(self::WIDTH, self::HEIGHT, 'current');
     }
 
     /**
