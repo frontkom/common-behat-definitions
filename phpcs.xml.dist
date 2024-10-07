@@ -4,6 +4,7 @@
     <file>./src</file>
     <file>./tests</file>
     <rule ref="./vendor/squizlabs/php_codesniffer/src/Standards/PSR2"/>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
     <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"/>
     <rule ref="SlevomatCodingStandard.PHP.ShortList"/>

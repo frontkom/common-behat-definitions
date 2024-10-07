@@ -22,7 +22,11 @@ class CommonFeatureContext extends RawMinkContext
     {
         $elements = $this->getSession()->getPage()->findAll('css', $selector);
         if (count($elements) !== 1) {
-            throw new \Exception('Expected to find exactly one element by selector ' . $selector . ' but found ' . count($elements) . ' elements');
+            throw new \Exception(
+                'Expected to find exactly one element by selector ' .
+                $selector .
+                ' but found ' . count($elements) . ' elements'
+            );
         }
         /** @var \Behat\Mink\Element\NodeElement $element */
         $element = reset($elements);

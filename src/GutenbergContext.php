@@ -30,7 +30,13 @@ class GutenbergContext extends RawMinkContext
     public function iWaitUntilGutenbergIsReady($max_wait = 10)
     {
         while (true) {
-            $is_ready = $this->getSession()->evaluateScript("wp && wp.data && wp.data.select && wp.data.select('core/editor').isCleanNewPost() || wp.data.select('core/block-editor').getBlockCount() > 0");
+            $is_ready = $this->getSession()->evaluateScript(
+                "wp &&
+                wp.data &&
+                wp.data.select &&
+                wp.data.select('core/editor').isCleanNewPost() ||
+                  wp.data.select('core/block-editor').getBlockCount() > 0"
+            );
             if ($is_ready) {
                 break;
             }
