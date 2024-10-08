@@ -81,4 +81,63 @@ class CommonFeatureContext extends RawMinkContext
             throw new \Exception("ScrollIntoView failed: " . $e->getMessage());
         }
     }
+
+    /**
+     * @Then I( should) see the :tag element with the :attribute attribute set to :value
+     */
+    public function assertRegionElementAttribute($tag, $attribute, $value)
+    {
+        $elements = $this->getSession()->getPage()->findAll('css', $tag);
+        if (empty($elements)) {
+            throw new \Exception(sprintf('The element "%s" was not found on the page %s', $tag, $this->getSession()->getCurrentUrl()));
+        }
+        if (!empty($attribute)) {
+            $found = FALSE;
+            $attrfound = FALSE;
+            foreach ($elements as $element) {
+                $attr = $element->getAttribute($attribute);
+                if (NULL !== $attr) {
+                    $attrfound = TRUE;
+                    if (strpos($attr, "$value") !== FALSE) {
+                        $found = TRUE;
+                        break;
+                    }
+                }
+            }
+            if (!$found) {
+                if (!$attrfound) {
+                    throw new \Exception(sprintf('The "%s" attribute is not present on the element "%s" on the page %s', $attribute, $tag, $this->getSession()->getCurrentUrl()));
+                } else {
+                    throw new \Exception(sprintf('The "%s" attribute does not equal "%s" on the element "%s" on the page %s', $attribute, $value, $tag, $this->getSession()->getCurrentUrl()));
+                }
+            }
+        }
+    }
+
+    /**
+     * @Then /^I hover mouse over the "(?P<selector>[^"]*)" element$/
+     */
+    public function iHoverMouseOver($selector)
+    {
+        $page = $this->getSession()->getPage();
+        $element = $page->find('css', $selector);
+        if ($element === NULL) {
+            throw new \Exception("Element '$selector' NOT found");
+        }
+
+        $element->mouseOver();
+    }
+
+    /**
+     * The dirty but only way to test clicking without being redirected.
+     *
+     * @Given Link redirections are disabled
+     */
+    public function disableLinkRedirections()
+    {
+        $session = $this->minkContext->getSession();
+        $script = "jQuery('a').click(function (e) {e.preventDefault()});";
+        $session->evaluateScript($script);
+    }
+
 }
