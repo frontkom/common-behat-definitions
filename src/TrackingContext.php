@@ -3,14 +3,14 @@
 namespace Frontkom\CommonBehatDefinitions;
 
 use Behat\Gherkin\Node\TableNode;
-use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\MinkExtension\Context\RawMinkContext;
 
 /**
  * Class TrackingContext.
  *
  * Provide Behat step-definitions for operations related to tracking like GTM.
  */
-class TrackingContext extends RawDrupalContext {
+class TrackingContext extends RawMinkContext {
 
   /**
    * Check if commerce GTM event is fired with correct items.
