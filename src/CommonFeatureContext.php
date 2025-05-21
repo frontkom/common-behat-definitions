@@ -24,14 +24,18 @@ class CommonFeatureContext extends RawMinkContext
     {
         $elements = $this->getSession()->getPage()->findAll('css', $selector);
         if (count($elements) !== 1) {
-          throw new \Exception('Expected to find exactly one element by selector ' . $selector . ' but found ' . count($elements) . ' elements');
+            throw new \Exception(
+                'Expected to find exactly one element by selector ' .
+                $selector .
+                ' but found ' . count($elements) . ' elements'
+            );
         }
         /** @var \Behat\Mink\Element\NodeElement $element */
         $element = reset($elements);
         $i = 0;
-        while (TRUE) {
+        while (true) {
             if ($element->isVisible()) {
-              return;
+                return;
             }
             sleep(1);
             $i++;
@@ -62,13 +66,32 @@ class CommonFeatureContext extends RawMinkContext
     }
 
     /**
+     * Set the viewport to something defined as desktop.
+     *
+     * If you need to override this, simply create a class that extends this
+     * class, and reference that class inside your behat.yml file.
+     *
+     * @Given viewport is desktop
+     * @Given the viewport is desktop
+     */
+    public function iSetDesktopViewport()
+    {
+        $mink = $this->getMink();
+        if (!$mink->getSession()->isStarted()) {
+            $mink->getSession()->start();
+        }
+        $this->getSession()->resizeWindow(self::WIDTH, self::HEIGHT, 'current');
+    }
+
+    /**
      * Scroll something into view.
      *
      * @Then I scroll element :selector into view
      * @Then I scroll :selector into view
      */
-    public function scrollSelectorIntoView($selector) {
-      $function = <<<JS
+    public function scrollSelectorIntoView($selector)
+    {
+        $function = <<<JS
   (function(){
     var elem = jQuery("$selector")[0];
     elem.scrollIntoView(false);
@@ -77,8 +100,7 @@ class CommonFeatureContext extends RawMinkContext
   JS;
         try {
             $this->getSession()->executeScript($function);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception("ScrollIntoView failed: " . $e->getMessage());
         }
     }
