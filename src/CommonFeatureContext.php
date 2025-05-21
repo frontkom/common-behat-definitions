@@ -12,6 +12,7 @@ class CommonFeatureContext extends RawMinkContext
     use JsErrorsDumper;
     use ElementExistsTrait;
     use ViewPortTrait;
+    use ElementInteractionTrait;
 
     /**
      * Wait until an element is visible.
