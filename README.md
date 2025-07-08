@@ -10,7 +10,7 @@ Common step definitions and helpers for behat
 composer require --dev frontkom/common-behat-definitions
 ```
 
-Then you would probably include the contexts you are interested in, inside of your `behat.yml` file. Here is one example of including the Drupal Gutenberg Context:
+Then you would probably include the contexts you are interested in, inside of your `behat.yml` file. Here is one example of including the one called `CommonFeatureContext`.
 
 ```diff
        contexts:
