@@ -3,6 +3,8 @@
 namespace Frontkom\CommonBehatDefinitions;
 
 use Behat\Behat\Hook\Scope\AfterStepScope;
+use Behat\Gherkin\Node\FeatureNode;
+use Behat\Gherkin\Node\StepNode;
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Exception\DriverException;
 
@@ -10,6 +12,10 @@ use Behat\Mink\Exception\DriverException;
  * Provides AfterStep that dumps any JS errors that appear during given step.
  */
 trait JsErrorsDumper {
+
+  protected StepNode $stepData;
+
+  protected FeatureNode $feature;
 
   /**
    * Checks that the step did not trigger any JS errors.
@@ -21,6 +27,8 @@ trait JsErrorsDumper {
     if (!$scope->getStep()) {
       return;
     }
+    $this->stepData = $scope->getStep();
+    $this->feature = $scope->getFeature();
     $driver = $this->getSession()->getDriver();
     if (!($driver instanceof Selenium2Driver)) {
       // Only works in browsers.
@@ -47,7 +55,8 @@ trait JsErrorsDumper {
       $errors = $this->getSession()->evaluateScript("return window.jsErrors");
     } catch (\Exception $e) {
       // output where the error occurred for debugging purposes
-      echo $this->scenarioData;
+      $error_message = sprintf('Encountered an error while trying to evaluate JS errors: %s. The step was %s and the feature file was %s', $e->getMessage(), $this->stepData->getText(), $this->feature->getFile());
+      echo $error_message;
       throw $e;
     }
 
